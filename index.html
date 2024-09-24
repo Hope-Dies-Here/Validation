@@ -94,6 +94,12 @@
     </div>
     
     <script>
+        
+    const logo = document.querySelector('.logo');
+    const words = ['Eternity', 'Energy', 'Essence', 'Existence', 'Euphoria'];
+    const randomWord = words[Math.floor(Math.random() * words.length)];
+    logo.textContent = randomWord;
+
         const form = document.getElementById('registrationForm');
         const fileInput = document.getElementById('image');
         const fileName = document.getElementById('fileName');
