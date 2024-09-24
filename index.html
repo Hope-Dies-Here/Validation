@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration to After Life</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/register.css" type="text/css" media="all" />
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">E</div>
+            <h1>Registration to After Life</h1>
+        </div>
+        <form id="registrationForm">
+            
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="fullName" name="name" required>
+                <div class="error" id="fullNameError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <div class="error" id="passwordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div class="error" id="confirmPasswordError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" required>
+                <div class="error" id="ageError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="pickDate">Pick any date from past</label>
+                <input type="date" id="pickDate" name="pickDate" required>
+                <div class="error" id="pickDateError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="place">Where?</label>
+                <select id="place" name="country" required>
+                    <option value="">Where Are You From</option>
+                    <option value="USA/አሜሪካ">USA/አሜሪካ</option>
+                    <option value="UK/ኢንግላንድ">UK/ኢንግላንድ</option>
+                    <option value="Canada/ካናዳ">Canada/ካናዳ</option>
+                    <option value="Australia/አውስትራሊያ">Australia/አውስትራሊያ</option>
+                    <option value="Other (ሌላ)">Other (ሌላ)</option>
+                </select>
+                <div class="error" id="placeError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="reason">Sex</label>
+                <select id="reason" name="reason" required>
+                    <option value="">Sex?</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="sigma">Sigma</option>
+                    <option value="yes">Yes</option>
+                </select>
+                <div class="error" id="reasonError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Upload Profile Picture</label>
+                <div class="file-input-wrapper">
+                    <button type="button" class="file-input-button">Choose Photo</button>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div class="file-name" id="fileName"></div>
+                <div class="error" id="imageError"></div>
+            </div>
+
+            <button id="sbt" type="submit">Register</button>
+        </form>
+        <div class="success-message" id="successMessage" style="display: none;">
+            Registration successful! Thank you for registering.
+        </div>
+    </div>
+    
+    <script>
+        const form = document.getElementById('registrationForm');
+        const fileInput = document.getElementById('image');
+        const fileName = document.getElementById('fileName');
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileName.textContent = e.target.files[0].name;
+            } else {
+                fileName.textContent = '';
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+            
+            let isValid = true;
+
+            // Validate Full Name (must be 5 characters long)
+            const fullName = document.getElementById('fullName');
+            if (fullName.value.trim().length < 5) {
+                document.getElementById('fullNameError').textContent = 'Name must be at least 5 characters long';
+                isValid = false;
+            }
+
+            // Validate Email (must be a valid format)
+            const email = document.getElementById('email');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.value.trim())) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                isValid = false;
+            }
+            
+            // Validate Password
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (password.value.length < 8) {
+                document.getElementById('passwordError').textContent = 'Password must be at least 8 characters long';
+                isValid = false;
+            } else if (password.value !== confirmPassword.value) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                isValid = false;
+            }
+            
+            // Validate Age
+            const age = document.getElementById('age');
+            if (age.value < 1 || age.value.trim() === '') {
+                document.getElementById('ageError').textContent = 'Age must be a positive number';
+                isValid = false;
+            }
+            
+            // Validate Date (must be in the past)
+            const pickDate = document.getElementById('pickDate');
+            const selectedDate = new Date(pickDate.value);
+            const today = new Date();
+            if (selectedDate >= today) {
+                document.getElementById('pickDateError').textContent = 'Please select a date from the past';
+                isValid = false;
+            }
+            
+            // Validate Place
+            const place = document.getElementById('place');
+            if (place.value === '') {
+                document.getElementById('placeError').textContent = 'Please select a place';
+                isValid = false;
+            }
+            
+            // Validate Sex
+            const reason = document.getElementById('reason');
+            if (reason.value === '') {
+                document.getElementById('reasonError').textContent = 'Please select your sex';
+                isValid = false;
+            }
+
+            // Validate Image Upload
+            const image = document.getElementById('image');
+            if (image.files.length === 0) {
+                document.getElementById('imageError').textContent = 'Please upload a photograph';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Show success message and alert
+                alert('Form successfully submitted!');
+                document.getElementById('successMessage').style.display = 'block';
+                // Hide the form
+                form.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
