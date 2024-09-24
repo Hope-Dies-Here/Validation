@@ -95,10 +95,10 @@
     
     <script>
         
+    
     const logo = document.querySelector('.logo');
-    const words = ['Eternity', 'Energy', 'Essence', 'Existence', 'Euphoria'];
-    const randomWord = words[Math.floor(Math.random() * words.length)];
-    logo.textContent = randomWord;
+    const randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // ASCII 65-90 are 'A'-'Z'
+    logo.textContent = randomLetter;
 
         const form = document.getElementById('registrationForm');
         const fileInput = document.getElementById('image');
